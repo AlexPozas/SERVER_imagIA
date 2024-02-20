@@ -47,12 +47,11 @@ app.post('/data', upload.single('file'), async (req, res) => {
         const messageText = objPost.text;
       }
 
-      const imageList = [];
+      const imageList = "";
 
       for (image in objPost.image) {
 
-
-        imageList.push(image);
+        imageList = image;
       }
 
       let url = 'http://localhost:11434/api/maria/image';

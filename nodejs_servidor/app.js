@@ -51,8 +51,8 @@ app.post('/data', upload.single('file'), async (req, res) => {
       const imageList = objPost.image;
 
 
-      let url = 'http://192.168.1.14:11434/api/maria/image';
-      var data = {
+      const url = 'http://192.168.1.14:11434/api/generate';
+      const data = {
         model: 'llava',
         prompt: messageText,
         images: [imageList],

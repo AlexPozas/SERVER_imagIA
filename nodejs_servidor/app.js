@@ -57,7 +57,7 @@ app.post('/data', upload.single('file'), async (req, res) => {
         prompt: messageText,
         images: [imageList],
       };
-      const response = await axios.post(apiUrl, requestData);
+      const response = await axios.post(url, data);
 
       const responses = [];
       response.data.split('\n').forEach(line => {

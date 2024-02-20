@@ -39,14 +39,10 @@ app.post('/data', upload.single('file'), async (req, res) => {
   }
 
   if (objPost.type == 'image') {
-    console.log('message received "imatge"')
     try {
       const messageText = objPost.prompt;
 
-
-
-
-      console.log(objPost.image);
+     // console.log(objPost.image);
       const imageList = objPost.image;
 
 

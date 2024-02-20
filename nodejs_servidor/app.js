@@ -30,7 +30,7 @@ app.post('/data', upload.single('file'), async (req, res) => {
   const textPost = req.body;
   const uploadedFile = req.file;
   let objPost = {}
-  console.log(textPost);
+  //console.log(textPost);
   try {
     objPost = textPost.data
   } catch (error) {
@@ -47,7 +47,7 @@ app.post('/data', upload.single('file'), async (req, res) => {
 
 
 
-      console.log(objPost.image);
+      //console.log(objPost.image);
       const imageList = objPost.image;
 
 
@@ -72,7 +72,8 @@ app.post('/data', upload.single('file'), async (req, res) => {
         mensaje: responses.map(response => response.response).join(''),
       };
   
-      console.log(jsonResponse);
+      //console.log(jsonResponse);
+      console.log('Correcto');
       res.status(200).json(jsonResponse);
       responses.clear;
 

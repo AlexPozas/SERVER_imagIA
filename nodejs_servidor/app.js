@@ -50,7 +50,7 @@ app.post('/data', upload.single('file'), async (req, res) => {
       const imageList = objPost.image;
 
 
-      let url = 'http://localhost:11434/api/maria/image';
+      let url = 'http://192.168.1.14:11434/api/maria/image';
       var data = {
         prompt: messageText,
         images: imageList

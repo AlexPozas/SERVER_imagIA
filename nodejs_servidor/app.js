@@ -40,7 +40,7 @@ app.post('/data', upload.single('file'), async (req, res) => {
   }
 
   if (objPost.type == 'image') {
-    console.log('message received "imatge"')
+    //console.log('message received "imatge"')
     try {
       const messageText = objPost.prompt;
 
@@ -55,7 +55,7 @@ app.post('/data', upload.single('file'), async (req, res) => {
       const data = {
         model: 'llava',
         prompt: messageText,
-        images: [imageList],
+        images: [imageList]
       };
       const response = await axios.post(url, data);
 

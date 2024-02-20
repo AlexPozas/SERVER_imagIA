@@ -44,6 +44,9 @@ app.post('/data', upload.single('file'), async (req, res) => {
       if (objPost.prompt == '') {
         const messageText = "what's in this image?";
       }
+      else {
+        const messageText = "what's in this image?";
+      }
 
       const imageList = "";
 

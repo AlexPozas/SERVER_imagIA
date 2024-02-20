@@ -31,7 +31,7 @@ app.post('/data', upload.single('file'), async (req, res) => {
   let objPost = {}
   console.log(textPost);
   try {
-    objPost = JSON.parse(textPost.data)
+    objPost = textPost.data
   } catch (error) {
     res.status(400).send('Sol·licitud incorrecta.')
     console.log(error)

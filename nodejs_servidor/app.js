@@ -12,7 +12,7 @@ app.use(express.static('public'));
 app.use(express.json());
 
 const httpServer = app.listen(port, async () => {
-  console.log(`Listening for HTTP queries on: http://0.0.0.0:${port}`);
+  console.log(`Listening for HTTP queries on: http://192.168.151.167:${port}`);
 });
 
 process.on('SIGTERM', shutDown);

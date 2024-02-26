@@ -114,6 +114,34 @@ app.post('/data', upload.single('file'), async (req, res) => {
     res.status(400).send('Solicitud incorrecta.');
   }
 
+  if (objPost.type == 'smsEnvia') {
+    try {
+      const url = 'http://192.168.1.16:8000/api/sendsms';
+        
+      const params = {
+        api_token: 'c6nDH90LLt67ctWQHWry6eJjvNf5JTvtRHmOAX7dBNAg3gwhLJ1p1M3wch9U9IAs',
+        username: 'ams27',
+        text: objPost.msg,
+        receiver: objPost.tel
+      };
+      
+      axios.get(url, { params })
+        .then(response => {
+          console.log('Respuesta:', response.data);
+        })
+        .catch(error => {
+          console.error('Error al realizar la solicitud:', error);
+      });
+
+    } catch (error) {
+      console.log(error);
+      res.status(500).send('Error procesando la solicitud.');
+    }
+  } else {
+    console.log('error, type not exists');
+    res.status(400).send('Solicitud incorrecta.');
+  }
+
 
 });
 

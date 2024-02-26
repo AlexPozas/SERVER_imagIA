@@ -104,7 +104,34 @@ app.post('/data', upload.single('file'), async (req, res) => {
         console.log(error);
         res.status(500).send('Error procesando la solicitud.');
       }
-  } else if (objPost.type == 'smsEnvia') {
+  }else if (objPost.type == 'smsDAPI') {
+    try {
+      const data = {
+        phone_number: objPost.tel,
+        access_key: objPost.msg,
+      };
+      const url = 'http://127.0.0.1:8080/api/user/validate';
+
+      await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data)
+      }).then(response => {
+        if (!response.ok) {
+          console.log('Error: connecting to dbAPI');
+        }
+        return response;
+      }).then(data => {
+
+      })
+
+    } catch (error) {
+      console.log(error);
+      res.status(500).send('Error procesando la solicitud.');
+    }
+} else if (objPost.type == 'smsEnvia') {
       try {
         const url = 'http://192.168.1.16:8000/api/sendsms';
           

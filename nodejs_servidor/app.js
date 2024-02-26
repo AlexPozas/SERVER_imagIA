@@ -29,6 +29,7 @@ app.post('/data', upload.single('file'), async (req, res) => {
   const uploadedFile = req.file;
   let objPost = {};
   console.log(textPost);
+  console.log("texto");
   try {
     objPost = textPost.data;
   } catch (error) {

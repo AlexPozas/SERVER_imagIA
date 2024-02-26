@@ -79,3 +79,48 @@ app.post('/data', upload.single('file'), async (req, res) => {
     res.status(400).send('Solicitud incorrecta.');
   }
 });
+
+
+
+async function saveRequest(request_body) {
+  const dbapi_insert_url = "http://127.0.0.1:8080/api/request/insert";
+
+  if (!('data' in request_body)) {
+    return ERROR;
+  }
+
+  const data = request_body.data;
+
+  if (!('prompt' in data && 'token' in data && 'images' in data) && Object.keys(data).length === 3) {
+    return ERROR;
+  }
+
+  if (typeof (data.prompt) !== 'string') {
+    return ERROR
+  }
+
+  if (typeof (data.token) !== 'string') {
+    return ERROR
+  }
+
+  if (!(Array.isArray(data.images))) {
+    return ERROR
+  }
+
+  await fetch(dbapi_insert_url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data)
+  }).then(response => {
+    if (!response.ok) {
+      console.log('Error: connecting to dbAPI');
+    }
+    return response;
+  }).then(data => {
+
+  })
+
+  return OK;
+}

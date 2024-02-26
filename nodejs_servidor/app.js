@@ -75,68 +75,58 @@ app.post('/data', upload.single('file'), async (req, res) => {
       console.log(error);
       res.status(500).send('Error procesando la solicitud.');
     }
-  } else {
-    console.log('error, type not exists');
-    res.status(400).send('Solicitud incorrecta.');
-  }
+  } else if (objPost.type == 'usuario') {
+      try {
 
-  if (objPost.type == 'usuario') {
-    try {
+        const data = {
+          nickname: objPost.nom,
+          email: objPost.email,
+          phone_number: objPost.tel
+        };
+        const url = 'http://127.0.0.1:8080/api/user/register';
 
-      const data = {
-        nickname: objPost.nom,
-        email: objPost.email,
-        phone_number: objPost.tel
-      };
-      const url = 'http://127.0.0.1:8080/api/user/register';
+        await fetch(url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        }).then(response => {
+          if (!response.ok) {
+            console.log('Error: connecting to dbAPI');
+          }
+          return response;
+        }).then(data => {
 
-      await fetch(url, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data)
-      }).then(response => {
-        if (!response.ok) {
-          console.log('Error: connecting to dbAPI');
-        }
-        return response;
-      }).then(data => {
-
-      })
-
-    } catch (error) {
-      console.log(error);
-      res.status(500).send('Error procesando la solicitud.');
-    }
-  } else {
-    console.log('error, type not exists');
-    res.status(400).send('Solicitud incorrecta.');
-  }
-
-  if (objPost.type == 'smsEnvia') {
-    try {
-      const url = 'http://192.168.1.16:8000/api/sendsms';
-        
-      const params = {
-        api_token: 'c6nDH90LLt67ctWQHWry6eJjvNf5JTvtRHmOAX7dBNAg3gwhLJ1p1M3wch9U9IAs',
-        username: 'ams27',
-        text: objPost.msg,
-        receiver: objPost.tel
-      };
-      
-      axios.get(url, { params })
-        .then(response => {
-          console.log('Respuesta:', response.data);
         })
-        .catch(error => {
-          console.error('Error al realizar la solicitud:', error);
-      });
 
-    } catch (error) {
-      console.log(error);
-      res.status(500).send('Error procesando la solicitud.');
-    }
+      } catch (error) {
+        console.log(error);
+        res.status(500).send('Error procesando la solicitud.');
+      }
+  } else if (objPost.type == 'smsEnvia') {
+      try {
+        const url = 'http://192.168.1.16:8000/api/sendsms';
+          
+        const params = {
+          api_token: 'c6nDH90LLt67ctWQHWry6eJjvNf5JTvtRHmOAX7dBNAg3gwhLJ1p1M3wch9U9IAs',
+          username: 'ams27',
+          text: objPost.msg,
+          receiver: objPost.tel
+        };
+        
+        axios.get(url, { params })
+          .then(response => {
+            console.log('Respuesta:', response.data);
+          })
+          .catch(error => {
+            console.error('Error al realizar la solicitud:', error);
+        });
+
+      } catch (error) {
+        console.log(error);
+        res.status(500).send('Error procesando la solicitud.');
+      }
   } else {
     console.log('error, type not exists');
     res.status(400).send('Solicitud incorrecta.');

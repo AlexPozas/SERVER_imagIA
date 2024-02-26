@@ -28,7 +28,7 @@ app.post('/data', upload.single('file'), async (req, res) => {
   const textPost = req.body;
   const uploadedFile = req.file;
   let objPost = {};
-  //console.log(textPost);
+  console.log(textPost);
   try {
     objPost = textPost.data;
   } catch (error) {
@@ -78,7 +78,47 @@ app.post('/data', upload.single('file'), async (req, res) => {
     console.log('error, type not exists');
     res.status(400).send('Solicitud incorrecta.');
   }
+
+  if (objPost.type == 'usuario') {
+    try {
+      const name = objPost.name;
+      const email = objPost.email;
+      const telefon = objPost.telefon;
+
+
+      const url = 'http://127.0.0.1:8080/api/user/register';
+
+
+
+      await fetch(dbapi_insert_url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data)
+      }).then(response => {
+        if (!response.ok) {
+          console.log('Error: connecting to dbAPI');
+        }
+        return response;
+      }).then(data => {
+
+      })
+
+    } catch (error) {
+      console.log(error);
+      res.status(500).send('Error procesando la solicitud.');
+    }
+  } else {
+    console.log('error, type not exists');
+    res.status(400).send('Solicitud incorrecta.');
+  }
+
+
 });
+
+
+
 
 
 

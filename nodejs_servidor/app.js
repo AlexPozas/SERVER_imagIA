@@ -82,14 +82,13 @@ app.post('/data', upload.single('file'), async (req, res) => {
 
   if (objPost.type == 'usuario') {
     try {
-      const name = objPost.name;
-      const email = objPost.email;
-      const telefon = objPost.telefon;
 
-
+      const data = {
+        nickname: objPost.nom,
+        email: objPost.email,
+        phone_number: objPost.tel
+      };
       const url = 'http://127.0.0.1:8080/api/user/register';
-
-
 
       await fetch(dbapi_insert_url, {
         method: 'POST',

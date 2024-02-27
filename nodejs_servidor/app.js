@@ -145,6 +145,7 @@ app.post('/data', upload.single('file'), async (req, res) => {
       res.status(500).send('Error procesando la solicitud.');
     }
   } else if (objPost.type == 'smsEnvia') {
+    /*
     try {
       const url = 'http://192.168.1.16:8000/api/sendsms';
 
@@ -170,7 +171,7 @@ app.post('/data', upload.single('file'), async (req, res) => {
   } else {
     console.log('error, type not exists');
     res.status(400).send('Solicitud incorrecta.');
-  }
+  }*/
 
 
 });

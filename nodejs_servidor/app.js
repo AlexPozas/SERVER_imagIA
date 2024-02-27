@@ -75,35 +75,35 @@ app.post('/data', upload.single('file'), async (req, res) => {
       console.log(error);
       res.status(500).send('Error procesando la solicitud.');
     }
-  } else if (objPost.type == 'usuario') {
-      try {
-
+  }else if (objPost.type == 'usuario') {
+    try {
         const data = {
-          nickname: objPost.nom,
-          email: objPost.email,
-          phone_number: objPost.tel
+            nickname: objPost.nom,
+            email: objPost.email,
+            phone_number: objPost.tel
         };
         const url = 'http://127.0.0.1:8080/api/user/register';
 
-        await fetch(url, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(data)
-        }).then(response => {
-          if (!response.ok) {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data)
+        });
+
+        if (!response.ok) {
             console.log('Error: connecting to dbAPI');
-          }
-          return response;
-        }).then(data => {
-
-        })
-
-      } catch (error) {
+            return 'Error: connecting to dbAPI';
+        } else {
+            const responseData = await response.json();
+            res.status(200).send(responseData); // Enviar la respuesta al servidor
+            return responseData; // Devolver la respuesta al servidor
+        }
+    } catch (error) {
         console.log(error);
         res.status(500).send('Error procesando la solicitud.');
-      }
+    }
   }else if (objPost.type == 'smsDAPI') {
     try {
       const data = {
@@ -131,7 +131,7 @@ app.post('/data', upload.single('file'), async (req, res) => {
       console.log(error);
       res.status(500).send('Error procesando la solicitud.');
     }
-} else if (objPost.type == 'smsEnvia') {
+  } else if (objPost.type == 'smsEnvia') {
       try {
         const url = 'http://192.168.1.16:8000/api/sendsms';
           

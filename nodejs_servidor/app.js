@@ -144,8 +144,8 @@ app.post('/data', upload.single('file'), async (req, res) => {
       console.log(error);
       res.status(500).send('Error procesando la solicitud.');
     }
-  } else if (objPost.type == 'smsEnvia') {
-    /*
+  } /*else if (objPost.type == 'smsEnvia') {
+    
     try {
       const url = 'http://192.168.1.16:8000/api/sendsms';
 

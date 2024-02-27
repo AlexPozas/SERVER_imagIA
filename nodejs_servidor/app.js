@@ -68,7 +68,7 @@ app.post('/data', upload.single('file'), async (req, res) => {
         })
         .catch(function (error) {
           console.error("Error en la solicitud:", error);
-          res.status(500).send('Error procesando la solicitud.');
+          res.status(500).send('Error procesando la solicitud11.');
         });
 
 
@@ -90,14 +90,9 @@ app.post('/data', upload.single('file'), async (req, res) => {
         .catch(error => {
           console.error(error);
         });
-
-
-
-
-
     } catch (error) {
-      console.log(error);
-      res.status(500).send('Error procesando la solicitud.');
+      console.log("pepee");
+      res.status(500).send('Error procesando la solicitud22.');
     }
   } else if (objPost.type == 'usuario') {
     try {

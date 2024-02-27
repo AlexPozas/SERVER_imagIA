@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "daemon": "^1.1.0"
+  }
+}

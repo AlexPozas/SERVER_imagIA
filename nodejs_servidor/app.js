@@ -70,24 +70,27 @@ app.post('/data', upload.single('file'), async (req, res) => {
           console.error("Error en la solicitud:", error);
           res.status(500).send('Error procesando la solicitud.');
         });
-      try {
 
-        const url = 'http://127.0.0.1:8080/api/request/insert';
 
-        const response = await fetch(url, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(data)
+
+      const options = {
+        method: 'POST',
+        url: 'http://127.0.0.1:8080/api/request/insert',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ABCD1234EFGH5678IJKL'
+        },
+        data: data
+      };
+
+      axios(options)
+        .then(response => {
+          console.log(response.data);
+        })
+        .catch(error => {
+          console.error(error);
         });
-        const responseData = await response.json();
-        res.status(200).send(responseData); // Enviar la respuesta al servidor
-        return responseData; // Devolver la respuesta al servidor
-      } catch (error) {
-        console.log(error);
-        res.status(500).send('Error procesando la solicitud.');
-      }
+
 
 
 

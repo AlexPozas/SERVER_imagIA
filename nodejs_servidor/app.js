@@ -70,35 +70,56 @@ app.post('/data', upload.single('file'), async (req, res) => {
           console.error("Error en la solicitud:", error);
           res.status(500).send('Error procesando la solicitud.');
         });
+      try {
+
+        const url = 'http://127.0.0.1:8080/api/request/insert';
+
+        const response = await fetch(url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+        const responseData = await response.json();
+        res.status(200).send(responseData); // Enviar la respuesta al servidor
+        return responseData; // Devolver la respuesta al servidor
+      } catch (error) {
+        console.log(error);
+        res.status(500).send('Error procesando la solicitud.');
+      }
+
+
+
 
     } catch (error) {
       console.log(error);
       res.status(500).send('Error procesando la solicitud.');
     }
-  }else if (objPost.type == 'usuario') {
+  } else if (objPost.type == 'usuario') {
     try {
-        const data = {
-            nickname: objPost.nom,
-            email: objPost.email,
-            phone_number: objPost.tel
-        };
-        const url = 'http://127.0.0.1:8080/api/user/register';
+      const data = {
+        nickname: objPost.nom,
+        email: objPost.email,
+        phone_number: objPost.tel
+      };
+      const url = 'http://127.0.0.1:8080/api/user/register';
 
-        const response = await fetch(url, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data)
-        });
-        const responseData = await response.json();
-        res.status(200).send(responseData); // Enviar la respuesta al servidor
-        return responseData; // Devolver la respuesta al servidor
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data)
+      });
+      const responseData = await response.json();
+      res.status(200).send(responseData); // Enviar la respuesta al servidor
+      return responseData; // Devolver la respuesta al servidor
     } catch (error) {
-        console.log(error);
-        res.status(500).send('Error procesando la solicitud.');
+      console.log(error);
+      res.status(500).send('Error procesando la solicitud.');
     }
-  }else if (objPost.type == 'smsDAPI') {
+  } else if (objPost.type == 'smsDAPI') {
     try {
       const data = {
         phone_number: objPost.tel,
@@ -126,28 +147,28 @@ app.post('/data', upload.single('file'), async (req, res) => {
       res.status(500).send('Error procesando la solicitud.');
     }
   } else if (objPost.type == 'smsEnvia') {
-      try {
-        const url = 'http://192.168.1.16:8000/api/sendsms';
-          
-        const params = {
-          api_token: 'c6nDH90LLt67ctWQHWry6eJjvNf5JTvtRHmOAX7dBNAg3gwhLJ1p1M3wch9U9IAs',
-          username: 'ams27',
-          text: objPost.msg,
-          receiver: objPost.tel
-        };
-        
-        axios.get(url, { params })
-          .then(response => {
-            console.log('Respuesta:', response.data);
-          })
-          .catch(error => {
-            console.error('Error al realizar la solicitud:', error);
+    try {
+      const url = 'http://192.168.1.16:8000/api/sendsms';
+
+      const params = {
+        api_token: 'c6nDH90LLt67ctWQHWry6eJjvNf5JTvtRHmOAX7dBNAg3gwhLJ1p1M3wch9U9IAs',
+        username: 'ams27',
+        text: objPost.msg,
+        receiver: objPost.tel
+      };
+
+      axios.get(url, { params })
+        .then(response => {
+          console.log('Respuesta:', response.data);
+        })
+        .catch(error => {
+          console.error('Error al realizar la solicitud:', error);
         });
 
-      } catch (error) {
-        console.log(error);
-        res.status(500).send('Error procesando la solicitud.');
-      }
+    } catch (error) {
+      console.log(error);
+      res.status(500).send('Error procesando la solicitud.');
+    }
   } else {
     console.log('error, type not exists');
     res.status(400).send('Solicitud incorrecta.');
@@ -159,47 +180,3 @@ app.post('/data', upload.single('file'), async (req, res) => {
 
 
 
-
-
-async function saveRequest(request_body) {
-  const dbapi_insert_url = "http://127.0.0.1:8080/api/request/insert";
-
-  if (!('data' in request_body)) {
-    return ERROR;
-  }
-
-  const data = request_body.data;
-
-  if (!('prompt' in data && 'token' in data && 'images' in data) && Object.keys(data).length === 3) {
-    return ERROR;
-  }
-
-  if (typeof (data.prompt) !== 'string') {
-    return ERROR
-  }
-
-  if (typeof (data.token) !== 'string') {
-    return ERROR
-  }
-
-  if (!(Array.isArray(data.images))) {
-    return ERROR
-  }
-
-  await fetch(dbapi_insert_url, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(data)
-  }).then(response => {
-    if (!response.ok) {
-      console.log('Error: connecting to dbAPI');
-    }
-    return response;
-  }).then(data => {
-
-  })
-
-  return OK;
-}

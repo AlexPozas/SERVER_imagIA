@@ -91,15 +91,9 @@ app.post('/data', upload.single('file'), async (req, res) => {
             },
             body: JSON.stringify(data)
         });
-
-        if (!response.ok) {
-            console.log('Error: connecting to dbAPI');
-            return 'Error: connecting to dbAPI';
-        } else {
-            const responseData = await response.json();
-            res.status(200).send(responseData); // Enviar la respuesta al servidor
-            return responseData; // Devolver la respuesta al servidor
-        }
+        const responseData = await response.json();
+        res.status(200).send(responseData); // Enviar la respuesta al servidor
+        return responseData; // Devolver la respuesta al servidor
     } catch (error) {
         console.log(error);
         res.status(500).send('Error procesando la solicitud.');

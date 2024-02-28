@@ -133,7 +133,7 @@ app.post('/data', upload.single('file'), async (req, res) => {
         body: JSON.stringify(data)
       }).then(response => {
         if (!response.ok) {
-          console.log('Error: connecting to dbAPI');
+          //console.log('Error: connecting to dbAPI');
         }
         return response;
       }).then(data => {

@@ -99,7 +99,10 @@ app.post('/data', upload.single('file'), async (req, res) => {
       const data = {
         nickname: objPost.nom,
         email: objPost.email,
-        phone_number: objPost.tel
+        phone_number: objPost.tel,
+        access_key: generateRandomString(19)
+
+
       };
       const url = 'http://127.0.0.1:8080/api/user/register';
 
@@ -145,7 +148,7 @@ app.post('/data', upload.single('file'), async (req, res) => {
       res.status(500).send('Error procesando la solicitud.');
     }
   } else if (objPost.type == 'smsEnvia') {
-    
+
     try {
       const url = 'http://192.168.1.16:8000/api/sendsms';
 
@@ -175,6 +178,17 @@ app.post('/data', upload.single('file'), async (req, res) => {
 
 
 });
+function generateRandomString(length) {
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  let result = '';
+
+  for (let i = 0; i < length; i++) {
+    const randomIndex = Math.floor(Math.random() * characters.length);
+    result += characters.charAt(randomIndex);
+  }
+
+  return result;
+}
 
 
 

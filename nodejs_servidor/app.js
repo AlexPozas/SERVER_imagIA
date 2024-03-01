@@ -47,8 +47,8 @@ app.post('/data', upload.single('file'), async (req, res) => {
       const data = {
         model: 'llava',
         prompt: messageText,
-        images: imageList
-        //user :  objPost.user;
+        images: imageList,
+        user :  objPost.user
       };
 
       axios.post(url, data)

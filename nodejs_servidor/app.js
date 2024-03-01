@@ -101,7 +101,7 @@ app.post('/data', upload.single('file'), async (req, res) => {
         nickname: objPost.nom,
         email: objPost.email,
         phone_number: objPost.tel,
-        access_key: generateRandomString(19)
+        access_key:objPost.access_key
 
 
       };

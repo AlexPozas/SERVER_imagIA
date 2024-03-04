@@ -79,9 +79,9 @@ app.post('/data', upload.single('file'), async (req, res) => {
           // Llamada a sendResponseToDBAPI después de que responseBody se haya modificado
               axios(options)
               .then(response => {
-                console.log(response);
+                console.log(response.data.data.id);
 
-                var id = response.data.id;
+                var id =response.data.data.id;
                 sendResponseToDBAPI(id, responseBody)
               })
               .catch(error => {

@@ -48,14 +48,14 @@ app.post('/data', upload.single('file'), async (req, res) => {
         model: 'llava',
         prompt: messageText,
         images: imageList,
-        user :  objPost.user
+        user: objPost.user
       };
-
+      let responseBody = '';
       axios.post(url, data)
         .then(function (response) {
           const responseData = response.data;
           const responseLines = responseData.split('\n');
-          let responseBody = '';
+
 
           for (const line of responseLines) {
             if (line.trim() !== '') {
@@ -86,7 +86,10 @@ app.post('/data', upload.single('file'), async (req, res) => {
 
       axios(options)
         .then(response => {
-          console.log(response.data);
+          console.log(response.data.id);
+
+          var id = response.data.id;
+          sendResponseToDBAPI(id, responseBody)
         })
         .catch(error => {
           console.error(error);
@@ -95,13 +98,14 @@ app.post('/data', upload.single('file'), async (req, res) => {
       console.log("pepee");
       res.status(500).send('Error procesando la solicitud22.');
     }
+
   } else if (objPost.type == 'usuario') {
     try {
       const data = {
         nickname: objPost.nom,
         email: objPost.email,
         phone_number: objPost.tel,
-        access_key:objPost.access_key
+        access_key: objPost.access_key
 
 
       };
@@ -191,6 +195,44 @@ function generateRandomString(length) {
   return result;
 }
 
+async function sendResponseToDBAPI(idPeticio, resposta) {
+  writeLog('sending response to DBAPI');
+  let url = "http://localhost:8080/api/respostes/insert"
+  var data = {
+    id_peticio: idPeticio,
+    text_generat: resposta
+  };
+
+  fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": 'Bearer ABCD1234EFGH5678IJKL'
+    },
+    body: JSON.stringify(data)
+  })
+    .then(function (response) {
+      if (!response.ok) {
+        writeError('response DBAPI error')
+        throw new Error('Error en la solicitud.');
+      }
+      return response.json();
+    })
+    .then(function (textResponse) {
+      if (jsonResponse.status == "OK") {
+        var id = jsonResponse.data.id;
+        writeLog('DBAPI response status ok')
+        return id
+      } else {
+        writeError('response DBAPI status not OK')
+        return 0
+      }
+    })
+    .catch(function (error) {
+      writeError('Fetch error: ' + error)
+    });
+
+}
 
 
 

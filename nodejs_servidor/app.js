@@ -51,29 +51,44 @@ app.post('/data', upload.single('file'), async (req, res) => {
         user: objPost.user
       };
       let responseBody = '';
-      axios.post(url, data)
-        .then(function (response) {
-          const responseData = response.data;
-          const responseLines = responseData.split('\n');
+      try {
+  const messageText = objPost.prompt;
+  const imageList = objPost.image;
+
+  const url = 'http://192.168.1.14:11434/api/generate';
+  const data = {
+    model: 'llava',
+    prompt: messageText,
+    images: imageList,
+    user: objPost.user
+  };
+  let responseBody = '';
+  
+  axios.post(url, data)
+    .then(function (response) {
+      const responseData = response.data;
+      const responseLines = responseData.split('\n');
+
+      for (const line of responseLines) {
+        if (line.trim() !== '') {
+          const responseObject = JSON.parse(line);
+          responseBody += responseObject.response;
+        }
+      }
+
+      console.log('image response:', responseBody);
+      res.status(200).send(responseBody);
+
+      // Llamada a sendResponseToDBAPI después de que responseBody se haya modificado
+      sendResponseToDBAPI(id, responseBody);
+    })
+    .catch(function (error) {
+      console.error("Error en la solicitud:", error);
+      res.status(500).send('Error procesando la solicitud11.');
+    });
 
 
-          for (const line of responseLines) {
-            if (line.trim() !== '') {
-              const responseObject = JSON.parse(line);
-              responseBody += responseObject.response;
-            }
-          }
-
-          console.log('image response:', responseBody);
-          res.status(200).send(responseBody);
-        })
-        .catch(function (error) {
-          console.error("Error en la solicitud:", error);
-          res.status(500).send('Error procesando la solicitud11.');
-        });
-
-
-
+/*
       const options = {
         method: 'POST',
         url: 'http://127.0.0.1:8080/api/request/insert',
@@ -97,7 +112,7 @@ app.post('/data', upload.single('file'), async (req, res) => {
     } catch (error) {
       console.log("pepee");
       res.status(500).send('Error procesando la solicitud22.');
-    }
+    }*/
 
   } else if (objPost.type == 'usuario') {
     try {

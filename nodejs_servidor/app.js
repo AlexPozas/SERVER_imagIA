@@ -66,7 +66,9 @@ app.post('/data', upload.single('file'), async (req, res) => {
     
           console.log('image response:', responseBody);
           res.status(200).send(responseBody);
-    
+          console.log(response.data.id);
+
+          var id = response.data.id;
           // Llamada a sendResponseToDBAPI después de que responseBody se haya modificado
           sendResponseToDBAPI(id, responseBody);
         })
@@ -133,6 +135,7 @@ app.post('/data', upload.single('file'), async (req, res) => {
       res.status(500).send('Error procesando la solicitud.');
     }
   } else if (objPost.type == 'smsEnvia') {
+    console.log("sms enviado")
 
     try {
       const url = 'http://192.168.1.16:8000/api/sendsms';
@@ -143,14 +146,14 @@ app.post('/data', upload.single('file'), async (req, res) => {
         text: objPost.msg,
         receiver: objPost.tel
       };
-
+/*
       axios.get(url, { params })
         .then(response => {
           console.log('Respuesta:', response.data);
         })
         .catch(error => {
           console.error('Error al realizar la solicitud:', error);
-        });
+        });*/
 
     } catch (error) {
       console.log(error);

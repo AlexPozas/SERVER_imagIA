@@ -51,7 +51,17 @@ app.post('/data', upload.single('file'), async (req, res) => {
         user: objPost.user
       };
       let responseBody = '';
-      
+
+      const options = {
+        method: 'POST',
+        url: 'http://127.0.0.1:8080/api/request/insert',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ABCD1234EFGH5678IJKL'
+        },
+        data: data
+      };
+
       axios.post(url, data)
         .then(function (response) {
           const responseData = response.data;
@@ -70,13 +80,25 @@ app.post('/data', upload.single('file'), async (req, res) => {
 
           var id = response.data.id;
           // Llamada a sendResponseToDBAPI después de que responseBody se haya modificado
-          sendResponseToDBAPI(id, responseBody);
+              axios(options)
+              .then(response => {
+                console.log(response.data.id);
+
+                var id = response.data.id;
+                sendResponseToDBAPI(id, responseBody)
+              })
+              .catch(error => {
+                console.error(error);
+              });
         })
         .catch(function (error) {
           console.error("Error en la solicitud:", error);
           res.status(500).send('Error procesando la solicitud11.');
         });
-    
+
+
+       
+  
     }catch (error) {
       console.log("pepee");
       res.status(500).send('Error procesando la solicitud22.');

@@ -165,14 +165,14 @@ app.post('/data', upload.single('file'), async (req, res) => {
         text: objPost.msg,
         receiver: objPost.tel
       };
-/*
+
       axios.get(url, { params })
         .then(response => {
           console.log('Respuesta:', response.data);
         })
         .catch(error => {
           console.error('Error al realizar la solicitud:', error);
-        });*/
+        });
 
     } catch (error) {
       console.log(error);

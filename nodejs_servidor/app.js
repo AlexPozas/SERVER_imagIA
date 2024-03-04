@@ -196,7 +196,7 @@ function generateRandomString(length) {
 }
 
 async function sendResponseToDBAPI(idPeticio, resposta) {
-  writeLog('sending response to DBAPI');
+  console.log('sending response to DBAPI');
   let url = "http://localhost:8080/api/respostes/insert"
   var data = {
     id_peticio: idPeticio,
@@ -213,7 +213,7 @@ async function sendResponseToDBAPI(idPeticio, resposta) {
   })
     .then(function (response) {
       if (!response.ok) {
-        writeError('response DBAPI error')
+        console.log('response DBAPI error')
         throw new Error('Error en la solicitud.');
       }
       return response.json();
@@ -221,15 +221,15 @@ async function sendResponseToDBAPI(idPeticio, resposta) {
     .then(function (textResponse) {
       if (jsonResponse.status == "OK") {
         var id = jsonResponse.data.id;
-        writeLog('DBAPI response status ok')
+        console.log('DBAPI response status ok')
         return id
       } else {
-        writeError('response DBAPI status not OK')
+        console.log('response DBAPI status not OK')
         return 0
       }
     })
     .catch(function (error) {
-      writeError('Fetch error: ' + error)
+      console.log('Fetch error: ' + error)
     });
 
 }

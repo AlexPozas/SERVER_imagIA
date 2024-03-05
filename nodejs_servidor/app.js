@@ -42,8 +42,8 @@ app.post('/data', upload.single('file'), async (req, res) => {
     try {
       const messageText = objPost.prompt;
       const imageList = objPost.image;
-    
-      const url = 'http://192.168.1.14:11434/api/generate';
+
+      const url = 'http://192.168.1.14:11434/api/generate';//Trucada a Maria 
       const data = {
         model: 'llava',
         prompt: messageText,
@@ -54,7 +54,7 @@ app.post('/data', upload.single('file'), async (req, res) => {
 
       const options = {
         method: 'POST',
-        url: 'http://127.0.0.1:8080/api/request/insert',
+        url: 'http://127.0.0.1:8080/api/request/insert',//Trucada per l'insert de de la peticio
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer ABCD1234EFGH5678IJKL'
@@ -66,27 +66,27 @@ app.post('/data', upload.single('file'), async (req, res) => {
         .then(function (response) {
           const responseData = response.data;
           const responseLines = responseData.split('\n');
-    
+
           for (const line of responseLines) {
             if (line.trim() !== '') {
               const responseObject = JSON.parse(line);
-              responseBody += responseObject.response;
+              responseBody += responseObject.response;//Resposta de Maria
             }
           }
-    
+
           console.log('image response:', responseBody);
           res.status(200).send(responseBody);
-          // Llamada a sendResponseToDBAPI después de que responseBody se haya modificado
-              axios(options)
-              .then(response => {
-                console.log(response.data.data.id);
 
-                var id =response.data.data.id;
-                sendResponseToDBAPI(id, responseBody)
-              })
-              .catch(error => {
-                console.error(error);
-              });
+          axios(options)
+            .then(response => {
+              console.log(response.data.data.id);
+
+              var id = response.data.data.id;
+              sendResponseToDBAPI(id, responseBody)// Trucada a sendResponseToDBAPI despres de que responseBody es modifiques i l'insert de la peticio
+            })
+            .catch(error => {
+              console.error(error);
+            });
         })
         .catch(function (error) {
           console.error("Error en la solicitud:", error);
@@ -94,9 +94,9 @@ app.post('/data', upload.single('file'), async (req, res) => {
         });
 
 
-       
-  
-    }catch (error) {
+
+
+    } catch (error) {
       console.log("pepee");
       res.status(500).send('Error procesando la solicitud22.');
     }
@@ -110,7 +110,7 @@ app.post('/data', upload.single('file'), async (req, res) => {
 
 
       };
-      const url = 'http://127.0.0.1:8080/api/user/register';
+      const url = 'http://127.0.0.1:8080/api/user/register';//trucada pel registre d'usuari
 
       const response = await fetch(url, {
         method: 'POST',
@@ -120,8 +120,8 @@ app.post('/data', upload.single('file'), async (req, res) => {
         body: JSON.stringify(data)
       });
       const responseData = await response.json();
-      res.status(200).send(responseData); // Enviar la respuesta al servidor
-      return responseData; // Devolver la respuesta al servidor
+      res.status(200).send(responseData); // Envia la resposta al servidor
+      return responseData; // Retorna la resposta al servidor
     } catch (error) {
       console.log(error);
       res.status(500).send('Error procesando la solicitud.');
@@ -132,7 +132,7 @@ app.post('/data', upload.single('file'), async (req, res) => {
         phone_number: objPost.tel,
         access_key: objPost.msg,
       };
-      const url = 'http://127.0.0.1:8080/api/user/validate';
+      const url = 'http://127.0.0.1:8080/api/user/validate'; //Trucada per validar l'usuari
 
       await fetch(url, {
         method: 'POST',
@@ -157,7 +157,7 @@ app.post('/data', upload.single('file'), async (req, res) => {
     console.log("sms enviado")
 
     try {
-      const url = 'http://192.168.1.16:8000/api/sendsms';
+      const url = 'http://192.168.1.16:8000/api/sendsms';//Trucada per el SMS
 
       const params = {
         api_token: 'c6nDH90LLt67ctWQHWry6eJjvNf5JTvtRHmOAX7dBNAg3gwhLJ1p1M3wch9U9IAs',
@@ -185,7 +185,7 @@ app.post('/data', upload.single('file'), async (req, res) => {
 
 
 });
-function generateRandomString(length) {
+function generateRandomString(length) {//Funcio per generar un una clau
   const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
   let result = '';
 
@@ -199,7 +199,7 @@ function generateRandomString(length) {
 
 async function sendResponseToDBAPI(idPeticio, resposta) {
   console.log('sending response to DBAPI');
-  let url = "http://localhost:8080/api/respostes/insert"
+  let url = "http://localhost:8080/api/respostes/insert"//Trucada per l'insert per la resposta de Maria
   var data = {
     id_peticio: idPeticio,
     resposta: resposta

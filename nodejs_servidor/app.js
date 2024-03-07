@@ -231,7 +231,7 @@ async function sendResponseToDBAPI(idPeticio, resposta) {
       }
     })
     .catch(function (error) {
-      console.log('Fetch error: ' + error)
+      //console.log('Fetch error: ' + error)
     });
 
 }
